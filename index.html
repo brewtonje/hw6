@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lottery Calculator</title>
+</head>
+<style media="screen">
+
+	body, html {
+		font-family: Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
+	}
+	h1 {
+		background-color: #b5ffc1;
+		text-align: center;
+	}
+	#prize {
+		background-color: #b5ffc1;
+		width: 10%;
+	}
+	#randum, #randumluck {
+		font-style: italic;
+	}
+
+</style>
+<body>
+
+<h1>Lottery Calculator</h1>
+
+<p id="randum"></p>
+<p id="randumluck"></p><br><br>
+<p>Enter five numbers between 1 and 48, separated by spaces:</p>
+<p>Enter one lucky numbers between 1 and 18:</p>
+
+
+
+<form id="frm1">
+  Numbers: <input type="text" id="user_numbers">
+  Lucky Number: <input type="text" id="lucky_user_number">
+  <input type="button" onclick=" process_answer();" value="Submit">
+</form>
+
+<p id="isitok"></p>
+<p id="test_1"></p>
+<p id="test_2"></p>
+<p id="output_1"></p>
+<p id="countofsame"></p>
+<p id="lucky_number_bool"></p>
+<p>Your Prize Money: </p>
+<p id="prize"></p>
+
+
+<script>
+
+
+  var randnums = Array.from({length: 5}, () => Math.floor(Math.random() * 48)+1);
+  randnums.sort();
+
+  var randlucky = Array.from({length: 1}, () => Math.floor(Math.random() * 18)+1);
+
+  document.getElementById("randum").innerHTML =
+  "Here are your random numbers: " + randnums;
+
+  document.getElementById("randumluck").innerHTML =
+  "Here is your random lucky number: " + randlucky;
+
+function process_answer() {
+
+  var answer_string = document.getElementById("user_numbers").value;
+  var split_string = answer_string.split(" ");
+
+  var lucky_user_number = document.getElementById("lucky_user_number").value;
+
+  parseInt(split_string);
+  split_string.sort();
+
+
+  if (!split_string.every(isitvalid) || split_string.length != 5){
+    document.getElementById("output_1").innerHTML =
+    "The input is not correctly formatted"
+
+  } else if (lucky_user_number > 18 || lucky_user_number < 1){
+    document.getElementById("output_1").innerHTML =
+    "Your lucky number is not correctly formatted"
+
+  } else {
+    document.getElementById("output_1").innerHTML =
+    "Your first 5 numbers were: " + split_string + ", and you chose " + lucky_user_number + " as your lucky number!";
+
+    var count = 0;
+    for (var i = 0; i < 5; i++) {
+      if(split_string[i] == randnums[i]) {
+        count++;
+      }
+    }
+
+    // document.getElementById("countofsame").innerHTML =
+    // "you got " + count + " identical numbers";
+
+    var lucky_match = check_lucky(lucky_user_number, randlucky);
+
+    // document.getElementById("lucky_number_bool").innerHTML =
+    // "lucky number match?: " + lucky_match;
+
+    prizemoney(count, lucky_match);
+
+  }
+
+}
+
+function isitvalid(range) {
+  return range <= 48 && range >= 1;
+}
+function check_lucky(lucky_user_number, randlucky) {
+  if(lucky_user_number == randlucky) {
+    return true;
+  } else {
+    return false;
+  }
+}
+function prizemoney(count, lucky_match) {
+  if (count == 5 && lucky_match) {
+    document.getElementById("prize").innerHTML = "$7,000 a WEEK for LIFE!";
+  } else if (count == 5) {
+    document.getElementById("prize").innerHTML = "$25,000 a YEAR for LIFE!";
+  } else if (count == 4 && lucky_match) {
+    document.getElementById("prize").innerHTML = "$5,000";
+  } else if (count == 4) {
+    document.getElementById("prize").innerHTML = "$200";
+  } else if (count == 3 && lucky_match) {
+    document.getElementById("prize").innerHTML = "$150";
+  } else if (count == 3) {
+    document.getElementById("prize").innerHTML = "$20";
+  } else if (count == 2 && lucky_match) {
+    document.getElementById("prize").innerHTML = "$25";
+  } else if (count == 2) {
+    document.getElementById("prize").innerHTML = "$3";
+  } else if (count == 1 && lucky_match) {
+    document.getElementById("prize").innerHTML = "$6";
+  } else if (count == 0 && lucky_match) {
+    document.getElementById("prize").innerHTML = "$4";
+  } else {
+    document.getElementById("prize").innerHTML = "$0";
+  }
+}
+
+
+</script>
+
+
+
+</body>
+</html>
