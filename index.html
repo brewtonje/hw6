@@ -75,11 +75,15 @@ function process_answer() {
 
   if (!split_string.every(isitvalid) || split_string.length != 5){
     document.getElementById("output_1").innerHTML =
-    "The input is not correctly formatted"
+    "The input is not correctly formatted";
+    document.getElementById("prize").innerHTML =
+    "n/a";
 
   } else if (lucky_user_number > 18 || lucky_user_number < 1){
     document.getElementById("output_1").innerHTML =
-    "Your lucky number is not correctly formatted"
+    "Your lucky number is not correctly formatted";
+    document.getElementById("prize").innerHTML =
+    "n/a";
 
   } else {
     document.getElementById("output_1").innerHTML =
