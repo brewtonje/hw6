@@ -14,21 +14,38 @@
 	}
 	#prize {
 		background-color: #b5ffc1;
-		width: 10%;
 	}
 	#randum, #randumluck {
 		font-style: italic;
 	}
+  #intro {
+    font-size: 15pt;
+  }
+  .center {
+    text-align: center;
+  }
+  #output_1 {
+    color: #eb4034;
+  }
+  #highlight {
+    background-color: #f4ff5c;
+  }
+b,p,form {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 
 </style>
 <body>
 
 <h1>Lottery Calculator</h1>
 
-<p id="randum"></p>
-<p id="randumluck"></p><br><br>
-<p>Enter five numbers between 1 and 48, separated by spaces:</p>
-<p>Enter one lucky numbers between 1 and 18:</p>
+<div class="center">
+  <p id="randum"></p>
+  <p id="randumluck"></p><br><br>
+</div>
+
+<b id="intro">Enter FIVE <span id="highlight">UNIQUE</span> numbers between 1 and 48, separated by space and ONE lucky numbers between 1 and 18: </b><br><br>
 
 
 
@@ -44,15 +61,23 @@
 <p id="output_1"></p>
 <p id="countofsame"></p>
 <p id="lucky_number_bool"></p>
+<br><br>
 <p>Your Prize Money: </p>
 <p id="prize"></p>
 
 
 <script>
 
+  // var randnums = Array.from({length: 5}, () => Math.floor(Math.random() * 48)+1);
+  // randnums = randnums.sort(function(a, b){return a-b});
 
-  var randnums = Array.from({length: 5}, () => Math.floor(Math.random() * 48)+1);
-  randnums.sort();
+  var randnums = [];
+  while(randnums.length < 5){
+      var r = Math.floor(Math.random() * 48) + 1;
+      if(randnums.indexOf(r) === -1) randnums.push(r);
+  }
+  randnums = randnums.sort(function(a, b){return a-b});
+
 
   var randlucky = Array.from({length: 1}, () => Math.floor(Math.random() * 18)+1);
 
@@ -70,10 +95,10 @@ function process_answer() {
   var lucky_user_number = document.getElementById("lucky_user_number").value;
 
   parseInt(split_string);
-  split_string.sort();
+  split_string = split_string.sort(function(a, b){return a-b});
 
 
-  if (!split_string.every(isitvalid) || split_string.length != 5){
+  if (!split_string.every(isitvalid) || split_string.length != 5 ||!allunique(split_string)){
     document.getElementById("output_1").innerHTML =
     "The input is not correctly formatted";
     document.getElementById("prize").innerHTML =
@@ -91,10 +116,19 @@ function process_answer() {
 
     var count = 0;
     for (var i = 0; i < 5; i++) {
-      if(split_string[i] == randnums[i]) {
-        count++;
+      for (var j = 0; j < 5; j++) {
+        if(split_string[j] == randnums[i]) {
+          count++;
+        }
       }
     }
+
+    // var count = 0;
+    // for (var i = 0; i < 5; i++) {
+    //   if(split_string[i] == randnums[i]) {
+    //     count++;
+    //   }
+    // }
 
     // document.getElementById("countofsame").innerHTML =
     // "you got " + count + " identical numbers";
@@ -109,6 +143,7 @@ function process_answer() {
   }
 
 }
+
 
 function isitvalid(range) {
   return range <= 48 && range >= 1;
@@ -143,6 +178,21 @@ function prizemoney(count, lucky_match) {
     document.getElementById("prize").innerHTML = "$4";
   } else {
     document.getElementById("prize").innerHTML = "$0";
+  }
+}
+function allunique(split_string){
+  if(split_string[0]==split_string[1]){
+    return false;
+  } else if (split_string[1]==split_string[2]){
+    return false;
+  } else if (split_string[2]==split_string[3]){
+    return false;
+  } else if (split_string[3]==split_string[4]){
+    return false;
+  } else if (split_string[4]==split_string[5]){
+    return false;
+  } else {
+    return true;
   }
 }
 
