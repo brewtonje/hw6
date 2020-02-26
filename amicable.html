@@ -51,7 +51,9 @@ function process_answer() {
 
   var other_num = num_1;
   parseInt(other_num);
-
+  
+  
+  // function isfactor(num_1, num_2) {
   // document.getElementById("origional_nums").innerHTML =
   // "You chose: " + num_1 + " and " + num_2 + ".";
 
@@ -62,8 +64,9 @@ function process_answer() {
   //   document.getElementById("test_ans").innerHTML =
   //   "not factor";
   // }
-
-    function total_factor (num_1){
+  
+  // }
+    function show_factor (num_1){
     var storage = [];
     var cur_num = num_1;
     var j = 0;
@@ -74,9 +77,12 @@ function process_answer() {
         j++;
       }
     }
+      return storage;
+    }
     // storage[j] = num_1;
     // document.getElementById("test_ans_fact").innerHTML = storage;
-
+    function totalFactor(storage, num_1){
+    var storage = show_factor(num_1);
     var total = 0;
     for (var i = 0; i < j; i++) {
       total = total + storage[i];
@@ -87,10 +93,10 @@ function process_answer() {
     // total = total + other_num;
     // total = total + num_1;
     }
-    var total_1 = total_factor(num_1);
-    var total_2 = total_factor(num_2);
+    var total_1 = total_factor(storage, num_1);
+    var total_2 = total_factor(storage, num_2);
     // document.getElementById("sum").innerHTML = "sum: " + total_1 + " other: " + total_2
-
+    
     if (total_1 == num_2 && total_2 == num_1){
       document.getElementById("result").innerHTML = "They are amicable!";
     } else {
